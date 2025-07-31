@@ -111,6 +111,36 @@ document.addEventListener('DOMContentLoaded', function() {
         competencesObserver.observe(sectionCompetences);
     }
     
+    // Animation de la timeline du parcours académique
+    function animerTimeline() {
+        const etapes = document.querySelectorAll('.etape-parcours');
+        etapes.forEach((etape, index) => {
+            etape.style.opacity = '0';
+            etape.style.transform = 'translateX(-20px)';
+            
+            setTimeout(() => {
+                etape.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                etape.style.opacity = '1';
+                etape.style.transform = 'translateX(0)';
+            }, index * 200);
+        });
+    }
+    
+    // Observer pour la timeline du parcours
+    const sectionParcours = document.querySelector('.section-parcours');
+    if (sectionParcours) {
+        const parcoursObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animerTimeline();
+                    parcoursObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        parcoursObserver.observe(sectionParcours);
+    }
+    
     // Formulaire de contact
     const formulaire = document.querySelector('.formulaire-contact');
     if (formulaire) {
@@ -164,6 +194,9 @@ document.addEventListener('DOMContentLoaded', function() {
             this.style.display = 'none';
         });
     });
+    
+    console.log('Toutes les fonctionnalités JavaScript sont initialisées !');
+}); 
     
     console.log('Toutes les fonctionnalités JavaScript sont initialisées !');
 }); 
