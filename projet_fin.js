@@ -82,6 +82,35 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(sectionStatistiques);
     }
     
+    // Animation des barres de compétences
+    function animerBarresCompetences() {
+        const barres = document.querySelectorAll('.progression-competence');
+        barres.forEach(barre => {
+            const largeur = barre.style.width;
+            barre.style.width = '0%';
+            
+            setTimeout(() => {
+                barre.style.transition = 'width 1.5s ease-in-out';
+                barre.style.width = largeur;
+            }, 200);
+        });
+    }
+    
+    // Observer pour les barres de compétences
+    const sectionCompetences = document.querySelector('.section-competences');
+    if (sectionCompetences) {
+        const competencesObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animerBarresCompetences();
+                    competencesObserver.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+        
+        competencesObserver.observe(sectionCompetences);
+    }
+    
     // Formulaire de contact
     const formulaire = document.querySelector('.formulaire-contact');
     if (formulaire) {
